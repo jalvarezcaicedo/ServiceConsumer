@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ServiceConsumer</string>
+    <string name="accept">Accept</string>
+</resources>
