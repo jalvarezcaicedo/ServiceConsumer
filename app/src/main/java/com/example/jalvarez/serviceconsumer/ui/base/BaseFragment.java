@@ -20,20 +20,22 @@ public class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void createProgressDialog() {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCancelable(false);
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setCancelable(false);
+        }
     }
 
     @Override
     public void showProgressDialog(String message) {
         progressDialog.setMessage(message);
-        progressDialog.show();
+        getActivity().runOnUiThread(() -> progressDialog.show());
     }
 
     @Override
     public void showProgressDialog(int message) {
         progressDialog.setMessage(getString(message));
-        progressDialog.show();
+        getActivity().runOnUiThread(() -> progressDialog.show());
     }
 
     @Override

@@ -10,10 +10,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by jalvarez on 21/11/2017.
- */
-
 public class ConsumerPresenter extends BasePresenter<ConsumerView> {
 
     private CompositeDisposable disposables;

@@ -4,6 +4,7 @@ import com.example.jalvarez.serviceconsumer.data.model.DataResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -34,7 +35,7 @@ public class TransactionalService {
 
     public interface RetrofitInterface {
         @GET(UrlConstant.TRANSACTIONAL_PARAMETER)
-        Observable<DataResponse> getData();
+        Observable<List<DataResponse>> getData();
     }
 
 }
