@@ -1,9 +1,9 @@
 package com.example.jalvarez.serviceconsumer.data.remote;
 
-public class UrlConnection {
+class UrlConnection {
 
-    private static String[] ENVIROMENT = {"jsonplaceholder.typicode.com"};
+    private static String[] ENVIROMENT = {"jsonplaceholder.typicode.com", "coffeeq.eastus.cloudapp.azure.com"};
 
-    public static final String TRANSACTIONAL = "https://" + ENVIROMENT[0] + "/";
+    static final String TRANSACTIONAL = "http://" + ENVIROMENT[1] + "/";
 
 }

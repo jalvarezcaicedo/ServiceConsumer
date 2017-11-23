@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appname="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jalvarez.serviceconsumer.ui.consumer.ConsumerFragment">
+
+    <item
+        android:id="@+id/menu_get"
+        android:icon="@drawable/ic_get"
+        android:title="@string/option_get"
+        appname:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_post"
+        android:icon="@drawable/ic_post"
+        android:title="@string/option_post"
+        appname:showAsAction="ifRoom" />
+
+</menu>

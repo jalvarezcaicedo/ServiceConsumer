@@ -3,6 +3,7 @@ package com.example.jalvarez.serviceconsumer.ui.consumer;
 import android.util.Log;
 
 import com.example.jalvarez.serviceconsumer.data.datamanager.DataManager;
+import com.example.jalvarez.serviceconsumer.data.model.Login;
 import com.example.jalvarez.serviceconsumer.ui.base.BasePresenter;
 import com.example.jalvarez.serviceconsumer.util.Constants;
 
@@ -15,7 +16,7 @@ public class ConsumerPresenter extends BasePresenter<ConsumerView> {
     private CompositeDisposable disposables;
     private DataManager dataManager;
 
-    public ConsumerPresenter() {
+    ConsumerPresenter() {
         this.dataManager = new DataManager();
     }
 
@@ -43,6 +44,16 @@ public class ConsumerPresenter extends BasePresenter<ConsumerView> {
                 }, throwable -> {
                     getMvpView().hideProgressDialog();
                     Log.i(getClass().getSimpleName(), "Transactional error");
+                }));
+    }
+
+    void callServiceDataPost(Login login) {
+        getMvpView().createProgressDialog();
+        getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
+        disposables.add(dataManager.postData(login).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(loginResponse -> {
+                    getMvpView().hideProgressDialog();
+                    getMvpView().showDataLogin(loginResponse);
                 }));
     }
 }
