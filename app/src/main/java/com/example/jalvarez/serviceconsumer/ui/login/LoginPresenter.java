@@ -1,9 +1,9 @@
-package com.example.jalvarez.serviceconsumer.ui.consumer;
+package com.example.jalvarez.serviceconsumer.ui.login;
 
 import android.util.Log;
 
 import com.example.jalvarez.serviceconsumer.data.datamanager.DataManager;
-import com.example.jalvarez.serviceconsumer.data.model.Login;
+import com.example.jalvarez.serviceconsumer.data.model.login.Login;
 import com.example.jalvarez.serviceconsumer.ui.base.BasePresenter;
 import com.example.jalvarez.serviceconsumer.util.Constants;
 
@@ -11,17 +11,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ConsumerPresenter extends BasePresenter<ConsumerView> {
+public class LoginPresenter extends BasePresenter<LoginView> {
 
     private CompositeDisposable disposables;
     private DataManager dataManager;
 
-    ConsumerPresenter() {
+    LoginPresenter() {
         this.dataManager = new DataManager();
     }
 
     @Override
-    public void attachView(ConsumerView mvpView) {
+    public void attachView(LoginView mvpView) {
         super.attachView(mvpView);
         if (disposables == null)
             disposables = new CompositeDisposable();
@@ -34,26 +34,17 @@ public class ConsumerPresenter extends BasePresenter<ConsumerView> {
             disposables.clear();
     }
 
-    void callServiceData() {
+    void callServiceLogin(Login login) {
         getMvpView().createProgressDialog();
         getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
-        disposables.add(dataManager.getData().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(dataResponse -> {
+        disposables.add(dataManager.callLogin(login).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(loginResponse -> {
                     getMvpView().hideProgressDialog();
-                    getMvpView().showData(dataResponse);
+                    Log.i(getClass().getSimpleName(), "HEADERS ->" + loginResponse.headers().get("authorization"));
+                    getMvpView().sendToMenu();
                 }, throwable -> {
                     getMvpView().hideProgressDialog();
                     Log.i(getClass().getSimpleName(), "Transactional error");
-                }));
-    }
-
-    void callServiceDataPost(Login login) {
-        getMvpView().createProgressDialog();
-        getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
-        disposables.add(dataManager.postData(login).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(loginResponse -> {
-                    getMvpView().hideProgressDialog();
-                    getMvpView().showDataLogin(loginResponse);
                 }));
     }
 }

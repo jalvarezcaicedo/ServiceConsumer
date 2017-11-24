@@ -1,23 +1,21 @@
 package com.example.jalvarez.serviceconsumer.data.remote;
 
-import com.example.jalvarez.serviceconsumer.data.model.DataResponse;
-import com.example.jalvarez.serviceconsumer.data.model.Login;
+import com.example.jalvarez.serviceconsumer.data.model.login.Login;
+import com.example.jalvarez.serviceconsumer.data.model.signup.SignUpRequest;
+import com.example.jalvarez.serviceconsumer.data.model.signup.SignUpResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public class TransactionalService {
@@ -39,11 +37,10 @@ public class TransactionalService {
     }
 
     public interface RetrofitInterface {
-        @GET(UrlConstant.TRANSACTIONAL_PARAMETER)
-        Observable<List<DataResponse>> getData();
+        @POST("/login")
+        Observable<Response<Login>> loginCall(@Body Login login);
 
-        @Headers({"Content-Type: application/json;charset=UTF-8"})
-        @POST("/api/v1/apirest_r/?format=json&username=post&api_key=xdr5poi567")
-        Observable<Login> loginCall(@Body Login login);
+        @POST("/api/1.0/customer/sign-up")
+        Observable<Response<SignUpResponse>> signUpCall(@Body SignUpRequest signUpRequest);
     }
 }

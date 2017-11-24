@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar;
 
 import com.example.jalvarez.serviceconsumer.R;
 import com.example.jalvarez.serviceconsumer.ui.base.BaseActivity;
-import com.example.jalvarez.serviceconsumer.ui.consumer.ConsumerFragment;
+import com.example.jalvarez.serviceconsumer.ui.login.LoginFragment;
 
 public class ContainerActivity extends BaseActivity implements ContainerView {
 
@@ -18,10 +18,11 @@ public class ContainerActivity extends BaseActivity implements ContainerView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
+        initUI();
+
         containerPresenter = new ContainerPresenter();
         containerPresenter.attachView(this);
-        addFragment(R.id.fragment_container, new ConsumerFragment(), ConsumerFragment.FRAGMENT_TAG);
-        initUI();
+        addFragment(R.id.fragment_container, new LoginFragment(), LoginFragment.FRAGMENT_TAG);
     }
 
     private void initUI() {

@@ -7,8 +7,6 @@ import java.util.Locale;
 
 public class Util {
 
-    public static final String NDATEFORMAT = "yyyy-MM-dd HH:mm:ss-05";
-
     public static String getDate(String format) {
         DateFormat date = new SimpleDateFormat(format, Locale.US);
         Calendar cal = Calendar.getInstance();

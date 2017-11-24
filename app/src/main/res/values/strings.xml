@@ -3,4 +3,21 @@
     <string name="accept">Accept</string>
     <string name="option_get">get</string>
     <string name="option_post">post</string>
+
+    <!-- Login interface text -->
+    <string name="btn_login">Login</string>
+    <string name="field_customer_id">Customer Id</string>
+    <string name="field_password">Password</string>
+    <string name="txt_label_or">-------------------- or --------------------</string>
+    <string name="link_sign_up">Sign up</string>
+    <string name="sign_up_button">Sign up now¡</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_mobile">Mobile</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_customer_id">Customer ID</string>
+    <string name="hint_surname">Surname</string>
+    <string name="hint_name">Name</string>
+
+
 </resources>

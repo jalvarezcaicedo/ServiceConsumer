@@ -1,21 +1,21 @@
 package com.example.jalvarez.serviceconsumer.data.datamanager;
 
-import com.example.jalvarez.serviceconsumer.data.model.DataResponse;
-import com.example.jalvarez.serviceconsumer.data.model.Login;
+import com.example.jalvarez.serviceconsumer.data.model.login.Login;
+import com.example.jalvarez.serviceconsumer.data.model.signup.SignUpRequest;
+import com.example.jalvarez.serviceconsumer.data.model.signup.SignUpResponse;
 import com.example.jalvarez.serviceconsumer.data.remote.TransactionalService;
 
-import java.util.List;
-
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import retrofit2.Response;
 
 public class DataManager {
 
-    public Observable<List<DataResponse>> getData() {
-        return TransactionalService.newTransactionalService().getData();
-    }
-
-    public Observable<Login> postData(Login login) {
+    public Observable<Response<Login>> callLogin(Login login) {
         return TransactionalService.newTransactionalService().loginCall(login);
     }
+
+    public Observable<Response<SignUpResponse>> callRegister(SignUpRequest signUpRequest) {
+        return TransactionalService.newTransactionalService().signUpCall(signUpRequest);
+    }
+
 }
