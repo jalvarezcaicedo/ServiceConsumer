@@ -5,15 +5,9 @@
     tools:context="com.example.capgemini.mybankapp.ui.consumer.ConsumerFragment">
 
     <item
-        android:id="@+id/menu_get"
-        android:icon="@drawable/ic_get"
-        android:title="@string/option_get"
-        appname:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/menu_post"
+        android:id="@+id/menu_save_tx"
+        appname:showAsAction="ifRoom"
         android:icon="@drawable/ic_post"
-        android:title="@string/option_post"
-        appname:showAsAction="ifRoom" />
+        android:title="@string/option_save_tx" />
 
 </menu>

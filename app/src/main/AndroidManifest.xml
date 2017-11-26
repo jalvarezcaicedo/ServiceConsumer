@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jalvarez.serviceconsumer">
+    package="com.example.capgemini.mybankapp">
 
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.base.BaseActivity" />
+        <activity android:name="com.example.capgemini.mybankapp.ui.base.BaseActivity" />
 
-        <activity android:name=".ui.container.ContainerActivity">
+        <activity android:name="com.example.capgemini.mybankapp.ui.container.ContainerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

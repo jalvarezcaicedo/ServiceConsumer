@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ServiceConsumer</string>
+    <string name="app_name">My Bank</string>
     <string name="accept">Accept</string>
     <string name="option_get">get</string>
     <string name="option_post">post</string>
@@ -18,6 +18,17 @@
     <string name="hint_customer_id">Customer ID</string>
     <string name="hint_surname">Surname</string>
     <string name="hint_name">Name</string>
+    <string name="hint_customer_product_id">Digite el id del producto asociado al cliente</string>
+    <string name="invalid_product_data">No existe informacion de producto para el identificador</string>
+    <string name="no_product_data">Identificador de producto vacio o nulo</string>
+    <string name="label_title_menu_product">Productos</string>
+    <string name="label_desc_menu_product">Consulta los datos de tus productos</string>
+    <string name="label_title_menu_transaction">Transacciones</string>
+    <string name="label_desc_menu_transaction">Almacena o consulta tus transacciones</string>
+    <string name="ultimas_transacciones">Ultimas transacciones</string>
+    <string name="hint_tx_query_prod">Digite el numero de producto para consultar transacciones</string>
+    <string name="no_log_available">Sin historial de envios para mostrar</string>
+    <string name="option_save_tx">save tx</string>
 
 
 </resources>

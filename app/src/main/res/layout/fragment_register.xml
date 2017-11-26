@@ -4,104 +4,138 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/field_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@string/hint_name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/field_surname"
-        app:layout_constraintEnd_toEndOf="@+id/field_surname"
-        app:layout_constraintStart_toStartOf="@+id/field_surname"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/field_surname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/hint_surname"
-        app:layout_constraintBottom_toTopOf="@+id/field_customer_id"
-        app:layout_constraintEnd_toEndOf="@+id/field_customer_id"
-        app:layout_constraintStart_toStartOf="@+id/field_customer_id" />
-
-    <EditText
-        android:id="@+id/field_customer_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/hint_customer_id"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/field_email"
-        app:layout_constraintEnd_toEndOf="@+id/field_email"
-        app:layout_constraintStart_toStartOf="@+id/field_email" />
-
-    <EditText
-        android:id="@+id/field_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/hint_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/field_mobile"
-        app:layout_constraintEnd_toEndOf="@+id/field_mobile"
-        app:layout_constraintStart_toStartOf="@+id/field_mobile" />
-
-    <EditText
-        android:id="@+id/field_mobile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/hint_mobile"
-        android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/field_phone"
-        app:layout_constraintEnd_toEndOf="@+id/field_phone"
-        app:layout_constraintStart_toStartOf="@+id/field_phone" />
-
-    <EditText
-        android:id="@+id/field_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/hint_phone"
-        android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/field_password"
-        app:layout_constraintEnd_toEndOf="@+id/field_password"
-        app:layout_constraintStart_toStartOf="@+id/field_password" />
-
-    <EditText
-        android:id="@+id/field_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="@string/hint_password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btn_sign_up_now"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_sign_up_now"
-        android:layout_width="207dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/sign_up_button"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_name"
+                android:inputType="textPersonName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_surname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_surname"
+                android:inputType="textPersonName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_customer_id"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_customer_id"
+                android:inputType="textPersonName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_mobile"
+                android:inputType="phone" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/hint_phone"
+                android:inputType="phone" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/field_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_register_field"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            app:errorEnabled="true">
+
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_sign_up_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_register_fields"
+            android:text="@string/sign_up_button" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
