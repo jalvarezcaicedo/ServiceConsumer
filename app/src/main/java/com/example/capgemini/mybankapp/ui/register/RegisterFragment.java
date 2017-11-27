@@ -48,7 +48,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView, View
         registerPresenter.attachView(RegisterFragment.this);
 
         //TODO: remove dummy data
-        setDummyData();
+        //setDummyData();
 
         return view;
     }

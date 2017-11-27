@@ -21,7 +21,7 @@ public class MenuFragment extends BaseFragment implements MenuView, View.OnClick
     public static final String FRAGMENT_TAG = "FRAGMENT_MENU";
 
 
-    //TODO si hay tiempo recuperar data de usuario y mostrar en pantalla superior
+    //TODO si hay tiempo mostrar la data del usuario en la parte superior de la interfaz
 
     @Nullable
     @Override
