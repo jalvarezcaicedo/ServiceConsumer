@@ -10,13 +10,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.capgemini.mybankapp.R;
@@ -45,6 +52,7 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         initUI(view);
+        setHasOptionsMenu(true);
         loginPresenter = new LoginPresenter(getActivity());
         loginPresenter.attachView(LoginFragment.this);
 
@@ -53,6 +61,7 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
 
     private void initUI(View view) {
         clearUserSharedPreference();
+        getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString(Constants.SERVER, "192.168.0.11").apply();
         containerLogin = view.findViewById(R.id.container_login);
         customerId = view.findViewById(R.id.field_customer_id);
         password = view.findViewById(R.id.field_password);
@@ -120,6 +129,50 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
         fragmentTransaction.replace(R.id.fragment_container, fragment, RegisterFragment.FRAGMENT_TAG);
         fragmentTransaction.addToBackStack(RegisterFragment.FRAGMENT_TAG);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_login, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_net_prefs:
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle("Net preferences");
+                alertDialog.setMessage("Enter your server direction");
+
+                final EditText input = new EditText(getActivity());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+
+                alertDialog.setPositiveButton("Save",
+                        (dialog, which) -> {
+                            if (!TextUtils.isEmpty(input.getText().toString())) {
+                                getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit()
+                                        .putString(Constants.SERVER, input.getText().toString()).apply();
+                            } else {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.setNegativeButton("Cancel",
+                        (dialog, which) -> dialog.cancel());
+
+                alertDialog.show();
+
+                break;
+            default:
+                Log.i(getClass().getSimpleName(), "No se reconoce la opcion indicada");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

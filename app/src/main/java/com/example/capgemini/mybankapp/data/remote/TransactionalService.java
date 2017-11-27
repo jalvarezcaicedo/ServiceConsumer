@@ -98,8 +98,8 @@ public class TransactionalService {
                 .writeTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS).build();
 
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(UrlConnection.TRANSACTIONAL)
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.SERVER, "192.168.0.11") + ":4443/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

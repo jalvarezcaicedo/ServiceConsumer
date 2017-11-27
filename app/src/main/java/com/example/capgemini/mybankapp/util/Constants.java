@@ -1,7 +1,7 @@
 package com.example.capgemini.mybankapp.util;
 
 public interface Constants {
-    String STRING_PLEASE_WAIT = "Espere un momento por favor.";
+    String STRING_PLEASE_WAIT = "Please, wait a moment.";
     String SHARED_PREFERENCES = "mybank_preferences";
     String LIMIT = "limit_transaction";
     String AUTHORIZATION_HEADER = "Authorization";
@@ -11,4 +11,5 @@ public interface Constants {
     String EMAIL = "email";
     String MOBILE = "mobile";
     String PRODUCTS = "products";
+    String SERVER = "server";
 }

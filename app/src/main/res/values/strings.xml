@@ -35,5 +35,6 @@
     <string name="validate_fields_tx">Please review all fields before to continue on save transaction</string>
     <string name="label_customers_product_selector">Select Customer\'s product</string>
     <string name="info_customer_product_empty">No product data</string>
+    <string name="option_net_prefs">preferencias</string>
 
 </resources>
