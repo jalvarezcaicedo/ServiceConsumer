@@ -44,7 +44,7 @@ public class CustomerProductPresenter extends BasePresenter<CustomerProductView>
     void callCustomerProduct(String productNumber) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         getMvpView().createProgressDialog();
         getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
-        disposables.add(dataManager.callCustomerProduct(context, productNumber).observeOn(AndroidSchedulers.mainThread())
+        disposables.add(dataManager.callCustomerProductInfo(context, productNumber).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(customerProductResponse -> {
                     getMvpView().hideProgressDialog();
                     getMvpView().showCustomerProductData(customerProductResponse.body());

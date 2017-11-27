@@ -10,6 +10,7 @@ import com.example.capgemini.mybankapp.data.model.signup.SignUpRequest;
 import com.example.capgemini.mybankapp.data.model.signup.SignUpResponse;
 import com.example.capgemini.mybankapp.data.model.transaction.TransactionRequest;
 import com.example.capgemini.mybankapp.data.model.transaction.TransactionResponse;
+import com.example.capgemini.mybankapp.util.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,7 +38,9 @@ import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import okhttp3.CertificatePinner;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -90,6 +93,7 @@ public class TransactionalService {
                     return hv.verify("localhost", sslSession);
                 })
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addNetworkInterceptor(new AddHeaderInterceptor(context))
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .writeTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS).build();
@@ -106,7 +110,7 @@ public class TransactionalService {
 
     public interface RetrofitInterface {
         @POST("/login")
-        Observable<Response<Login>> loginCall(@Body Login login);
+        Observable<Response<Void>> loginCall(@Body Login login);
 
         @POST("/api/1.0/customer/sign-up")
         Observable<Response<SignUpResponse>> signUpCall(@Body SignUpRequest signUpRequest);
@@ -115,7 +119,10 @@ public class TransactionalService {
         Observable<Response<CustomerInformationResponse>> customerByIdCall(@Url String url, @Header("Authorization") String authorization);
 
         @GET
-        Observable<Response<CustomerProductResponse>> customerProductCall(@Url String url, @Header("Authorization") String authorization);
+        Observable<Response<List<CustomerProductResponse>>> customerProductsCall(@Url String url);
+
+        @GET
+        Observable<Response<CustomerProductResponse>> customerProductInfoCall(@Url String url, @Header("Authorization") String authorization);
 
         @GET
         Observable<Response<List<TransactionResponse>>> lastTransactionsCall(@Url String url, @Header("Authorization") String authorization);
@@ -123,5 +130,23 @@ public class TransactionalService {
         @POST("/api/1.0/transaction/save")
         Observable<Response<TransactionResponse>> saveTransactionCall(@Header("Authorization") String authorization, @Body TransactionRequest transactionRequest);
 
+    }
+
+    public static class AddHeaderInterceptor implements Interceptor {
+
+        Context context;
+
+        AddHeaderInterceptor(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+
+            Request.Builder builder = chain.request().newBuilder();
+            builder.addHeader("Authorization", context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Constants.AUTHORIZATION_HEADER, ""));
+
+            return chain.proceed(builder.build());
+        }
     }
 }

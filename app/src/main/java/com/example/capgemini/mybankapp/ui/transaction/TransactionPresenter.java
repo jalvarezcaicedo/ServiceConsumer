@@ -1,6 +1,7 @@
 package com.example.capgemini.mybankapp.ui.transaction;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.capgemini.mybankapp.data.datamanager.DataManager;
 import com.example.capgemini.mybankapp.ui.base.BasePresenter;
@@ -46,6 +47,7 @@ public class TransactionPresenter extends BasePresenter<TransactionView> {
         getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
         disposables.add(dataManager.callTransaction(context, limit, productNumber).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(lastTransactions -> {
+                    Log.i(getClass().getSimpleName(), "# Tx's ->" + lastTransactions.body().size());
                     getMvpView().hideProgressDialog();
                     getMvpView().showTransactionList(lastTransactions.body());
                 }, throwable -> {

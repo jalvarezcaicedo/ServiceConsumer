@@ -6,4 +6,7 @@ public interface LoginView extends BaseView {
 
     void sendToMenu();
 
+    void showSnackBar(String msg);
+
+    void getCustomerInfo();
 }

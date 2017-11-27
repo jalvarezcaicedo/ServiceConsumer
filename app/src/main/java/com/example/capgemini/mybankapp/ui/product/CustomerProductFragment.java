@@ -1,31 +1,38 @@
 package com.example.capgemini.mybankapp.ui.product;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.capgemini.mybankapp.R;
 import com.example.capgemini.mybankapp.data.model.customerinfo.CustomerProductResponse;
 import com.example.capgemini.mybankapp.ui.base.BaseFragment;
+import com.example.capgemini.mybankapp.util.Constants;
+import com.example.capgemini.mybankapp.util.Util;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CustomerProductFragment extends BaseFragment implements CustomerProductView, TextWatcher {
+public class CustomerProductFragment extends BaseFragment implements CustomerProductView, AdapterView.OnItemSelectedListener {
 
     public static final String FRAGMENT_TAG = "FRAGMENT_CUSTOMER_PRODUCT";
     private CustomerProductPresenter customerProductPresenter;
     private TextView productData;
+    private Spinner productNumberSpinner;
+    private ArrayList<String> prodNumberList;
 
     @Nullable
     @Override
@@ -40,8 +47,29 @@ public class CustomerProductFragment extends BaseFragment implements CustomerPro
 
     private void initUI(android.view.View view) {
         productData = view.findViewById(R.id.customer_product_data);
-        EditText productId = view.findViewById(R.id.txt_product_id);
-        productId.addTextChangedListener(this);
+        productNumberSpinner = view.findViewById(R.id.spinner_product_number);
+        productNumberSpinner.setOnItemSelectedListener(this);
+
+        prodNumberList = getProductNumberList(Util.getListProducts(getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(Constants.PRODUCTS, "")));
+
+        if (prodNumberList.size() > 0) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, prodNumberList);
+            productNumberSpinner.setAdapter(adapter);
+        } else {
+            productNumberSpinner.setEnabled(false);
+        }
+
+    }
+
+    private ArrayList<String> getProductNumberList(List<CustomerProductResponse> listProducts) {
+
+        ArrayList<String> prodNumbStringList = new ArrayList<>();
+        for (CustomerProductResponse customerProductResponse : listProducts) {
+            prodNumbStringList.add(customerProductResponse.getProductNumber());
+        }
+
+        return prodNumbStringList;
     }
 
     @Override
@@ -52,17 +80,13 @@ public class CustomerProductFragment extends BaseFragment implements CustomerPro
             productData.setText(getString(R.string.invalid_product_data));
     }
 
-    //<editor-fold desc="TextWatcher">
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
+    //<editor-fold desc="ItemSelectedListeners">
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            if (!TextUtils.isEmpty(charSequence))
-                customerProductPresenter.callCustomerProduct(charSequence.toString());
+            if (prodNumberList.size() > 0)
+                customerProductPresenter.callCustomerProduct(prodNumberList.get(i));
             else
                 productData.setText(getString(R.string.no_product_data));
         } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException | IOException | KeyManagementException e) {
@@ -71,7 +95,7 @@ public class CustomerProductFragment extends BaseFragment implements CustomerPro
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
     //</editor-fold>

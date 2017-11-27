@@ -1,8 +1,12 @@
 package com.example.capgemini.mybankapp.ui.login;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +24,7 @@ import com.example.capgemini.mybankapp.data.model.login.Login;
 import com.example.capgemini.mybankapp.ui.base.BaseFragment;
 import com.example.capgemini.mybankapp.ui.menu.MenuFragment;
 import com.example.capgemini.mybankapp.ui.register.RegisterFragment;
+import com.example.capgemini.mybankapp.util.Constants;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -33,6 +38,7 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
     private LoginPresenter loginPresenter;
     private EditText customerId;
     private EditText password;
+    private ConstraintLayout containerLogin;
 
     @Nullable
     @Override
@@ -46,6 +52,8 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
     }
 
     private void initUI(View view) {
+        clearUserSharedPreference();
+        containerLogin = view.findViewById(R.id.container_login);
         customerId = view.findViewById(R.id.field_customer_id);
         password = view.findViewById(R.id.field_password);
         TextView linkSignUp = view.findViewById(R.id.link_sign_up);
@@ -63,17 +71,20 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
     }
 
     private void setDummyData() {
-        customerId.setText("123457");
-        password.setText("123457");
+        customerId.setText("1234574");
+        password.setText("1234574");
+    }
+
+    private void clearUserSharedPreference() {
+        SharedPreferences.Editor sharedPreferencesEditor = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
+
+        sharedPreferencesEditor.putString(Constants.AUTHORIZATION_HEADER, "");
+        sharedPreferencesEditor.putString(Constants.CUSTOMER_ID, "");
+        sharedPreferencesEditor.apply();
     }
 
     @Override
     public void sendToMenu() {
-        try {
-            loginPresenter.callCustomerInfo();
-        } catch (CertificateException | NoSuchAlgorithmException | IOException | KeyStoreException | KeyManagementException e) {
-            e.printStackTrace();
-        }
         Fragment fragment = new MenuFragment();
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -83,6 +94,20 @@ public class LoginFragment extends BaseFragment implements LoginView, View.OnCli
         fragmentTransaction.replace(R.id.fragment_container, fragment, MenuFragment.FRAGMENT_TAG);
         fragmentTransaction.addToBackStack(MenuFragment.FRAGMENT_TAG);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void showSnackBar(String msg) {
+        Snackbar.make(containerLogin, msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getCustomerInfo() {
+        try {
+            loginPresenter.callCustomerInfo();
+        } catch (CertificateException | NoSuchAlgorithmException | IOException | KeyStoreException | KeyManagementException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendToRegister() {

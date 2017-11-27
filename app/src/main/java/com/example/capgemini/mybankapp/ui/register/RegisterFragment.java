@@ -107,7 +107,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView, View
 
     @Override
     public void sendToLogin() {
-        Fragment fragment = new RegisterFragment();
+        Fragment fragment = new LoginFragment();
 
         FragmentManager fragmentManager = getFragmentManager();
         assert fragmentManager != null;

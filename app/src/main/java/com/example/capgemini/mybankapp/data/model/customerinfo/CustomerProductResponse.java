@@ -20,7 +20,7 @@ public class CustomerProductResponse {
     private String terminationDate;
     @SerializedName("balance")
     @Expose
-    private Integer balance;
+    private Double balance;
     @SerializedName("status")
     @Expose
     private String status;
@@ -60,11 +60,11 @@ public class CustomerProductResponse {
         this.terminationDate = terminationDate;
     }
 
-    public Integer getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

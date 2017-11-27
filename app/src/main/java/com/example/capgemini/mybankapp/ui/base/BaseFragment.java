@@ -2,6 +2,7 @@ package com.example.capgemini.mybankapp.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 
@@ -11,6 +12,7 @@ public class BaseFragment extends Fragment implements BaseView {
 
     private AlertDialog.Builder alertDialog;
     private ProgressDialog progressDialog;
+    private Snackbar snackbar;
 
     @Override
     public void onAttach(Context context) {
@@ -46,17 +48,19 @@ public class BaseFragment extends Fragment implements BaseView {
     @Override
     public void createAlertDialog() {
         alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(true);
     }
 
     @Override
     public void showAlertDialog(int message) {
+        alertDialog.setTitle("My Bank App");
         alertDialog.setMessage(message);
         showAlert();
     }
 
     @Override
     public void showAlertDialog(String message) {
+        alertDialog.setTitle("My Bank App");
         alertDialog.setMessage(message);
         showAlert();
     }

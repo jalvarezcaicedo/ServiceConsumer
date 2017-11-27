@@ -1,10 +1,7 @@
 <resources>
+
     <string name="app_name">My Bank</string>
     <string name="accept">Accept</string>
-    <string name="option_get">get</string>
-    <string name="option_post">post</string>
-
-    <!-- Login interface text -->
     <string name="btn_login">Login</string>
     <string name="field_customer_id">Customer Id</string>
     <string name="field_password">Password</string>
@@ -18,17 +15,25 @@
     <string name="hint_customer_id">Customer ID</string>
     <string name="hint_surname">Surname</string>
     <string name="hint_name">Name</string>
-    <string name="hint_customer_product_id">Digite el id del producto asociado al cliente</string>
-    <string name="invalid_product_data">No existe informacion de producto para el identificador</string>
-    <string name="no_product_data">Identificador de producto vacio o nulo</string>
-    <string name="label_title_menu_product">Productos</string>
-    <string name="label_desc_menu_product">Consulta los datos de tus productos</string>
-    <string name="label_title_menu_transaction">Transacciones</string>
-    <string name="label_desc_menu_transaction">Almacena o consulta tus transacciones</string>
-    <string name="ultimas_transacciones">Ultimas transacciones</string>
-    <string name="hint_tx_query_prod">Digite el numero de producto para consultar transacciones</string>
-    <string name="no_log_available">Sin historial de envios para mostrar</string>
-    <string name="option_save_tx">save tx</string>
-
+    <string name="hint_customer_product_id">type the id associated with the client</string>
+    <string name="invalid_product_data">no information from product for identifier</string>
+    <string name="no_product_data">product identifier void or null</string>
+    <string name="label_title_menu_product">Products</string>
+    <string name="label_desc_menu_product">Check data of all your products</string>
+    <string name="label_title_menu_transaction">Transactions</string>
+    <string name="label_desc_menu_transaction">Save or check your transactions</string>
+    <string name="last_transactions">Last transactions</string>
+    <string name="hint_tx_query_prod">Select number of product for check last transactions</string>
+    <string name="no_transactions_available">No transactions to show</string>
+    <string name="option_save_tx">save transaction</string>
+    <string name="save_rejected_code">unknown</string>
+    <string name="txt_btn_save_transaction">Save transaction</string>
+    <string name="hint_type">type</string>
+    <string name="hint_amount">amount</string>
+    <string name="hint_channel">channel id</string>
+    <string name="hint_product_number">product_number</string>
+    <string name="validate_fields_tx">Please review all fields before to continue on save transaction</string>
+    <string name="label_customers_product_selector">Select Customer\'s product</string>
+    <string name="info_customer_product_empty">No product data</string>
 
 </resources>

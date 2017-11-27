@@ -74,7 +74,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     @Override
     public void createAlertDialog() {
         alertDialog = new AlertDialog.Builder(BaseActivity.this);
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(true);
     }
 
     @Override

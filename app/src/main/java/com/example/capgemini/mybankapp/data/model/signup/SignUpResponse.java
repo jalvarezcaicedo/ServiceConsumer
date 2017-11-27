@@ -11,7 +11,23 @@ public class SignUpResponse {
     @Expose
     private String response;
 
-    private class Status {
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public class Status {
         @SerializedName("status_code")
         @Expose
         private String statusCode;

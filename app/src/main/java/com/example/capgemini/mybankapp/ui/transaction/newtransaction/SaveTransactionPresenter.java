@@ -1,10 +1,10 @@
-package com.example.capgemini.mybankapp.ui.register;
+package com.example.capgemini.mybankapp.ui.transaction.newtransaction;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.example.capgemini.mybankapp.R;
 import com.example.capgemini.mybankapp.data.datamanager.DataManager;
-import com.example.capgemini.mybankapp.data.model.signup.SignUpRequest;
+import com.example.capgemini.mybankapp.data.model.transaction.TransactionRequest;
 import com.example.capgemini.mybankapp.ui.base.BasePresenter;
 import com.example.capgemini.mybankapp.util.Constants;
 
@@ -18,19 +18,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RegisterPresenter extends BasePresenter<RegisterView> {
+public class SaveTransactionPresenter extends BasePresenter<SaveTransactionView> {
 
     private CompositeDisposable disposables;
     private DataManager dataManager;
     private Context context;
 
-    RegisterPresenter(Context context) {
+    SaveTransactionPresenter(Context context) {
         this.context = context;
         this.dataManager = new DataManager();
     }
 
     @Override
-    public void attachView(RegisterView mvpView) {
+    public void attachView(SaveTransactionView mvpView) {
         super.attachView(mvpView);
         if (disposables == null)
             disposables = new CompositeDisposable();
@@ -43,22 +43,20 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
             disposables.clear();
     }
 
-    void callServiceSignUp(SignUpRequest signUpRequest) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
+    void callSaveTransaction(TransactionRequest transactionRequest) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         getMvpView().createProgressDialog();
         getMvpView().showProgressDialog(Constants.STRING_PLEASE_WAIT);
-        disposables.add(dataManager.callRegister(context, signUpRequest).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(loginResponse -> {
+        disposables.add(dataManager.callSaveTransaction(context, transactionRequest).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(saveTransactionResponse -> {
                     getMvpView().hideProgressDialog();
-                    getMvpView().sendToLogin();
-                    getMvpView().createAlertDialog();
-                    getMvpView().showAlertDialog("Status->" + loginResponse.body().getStatus().getStatusDesc() + "\n"
-                            + "Response-> " + loginResponse.body().getResponse());
+                    if (saveTransactionResponse.code() == 200)
+                        getMvpView().saveTransaction(saveTransactionResponse.body());
+                    else
+                        getMvpView().showSnackBarResponse(String.valueOf(saveTransactionResponse.code()), saveTransactionResponse.message(), false)
+                                ;
                 }, throwable -> {
                     getMvpView().hideProgressDialog();
-                    getMvpView().sendToLogin();
-                    getMvpView().createAlertDialog();
-                    getMvpView().showAlertDialog("Unknown error from app");
-                    Log.i(getClass().getSimpleName(), "Transactional error");
+                    getMvpView().showSnackBarResponse(String.valueOf(context.getString(R.string.save_rejected_code)), throwable.getMessage(), false);
                 }));
     }
 }

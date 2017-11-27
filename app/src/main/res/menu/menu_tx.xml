@@ -6,8 +6,8 @@
 
     <item
         android:id="@+id/menu_save_tx"
-        appname:showAsAction="ifRoom"
-        android:icon="@drawable/ic_post"
-        android:title="@string/option_save_tx" />
+        android:icon="@drawable/ic_new_tx"
+        android:title="@string/option_save_tx"
+        appname:showAsAction="always" />
 
 </menu>

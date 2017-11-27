@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,13 +17,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.capgemini.mybankapp.R;
+import com.example.capgemini.mybankapp.data.model.customerinfo.CustomerProductResponse;
 import com.example.capgemini.mybankapp.data.model.transaction.TransactionResponse;
 import com.example.capgemini.mybankapp.ui.base.BaseFragment;
+import com.example.capgemini.mybankapp.ui.transaction.newtransaction.SaveTransactionFragment;
 import com.example.capgemini.mybankapp.util.Constants;
+import com.example.capgemini.mybankapp.util.Util;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -32,21 +38,22 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionFragment extends BaseFragment implements TransactionView, TextWatcher {
+public class TransactionFragment extends BaseFragment implements TransactionView, AdapterView.OnItemSelectedListener {
 
     public static final String FRAGMENT_TAG = "FRAGMENT_TRANSACTION";
     private SharedPreferences sharedPreferences;
     private TransactionPresenter transactionPresenter;
-    private EditText prodNumberField;
+    private Spinner prodNumberField;
     private RecyclerView recyclerTransactions;
     private TextView emptyView;
     private TransactionAdapter transactionAdapter;
     private ArrayList<TransactionResponse> transactionResponses;
+    private ArrayList<String> prodNumberList;
 
     @Nullable
     @Override
-    public android.view.View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        android.view.View view = inflater.inflate(R.layout.fragment_transaction, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_transaction, container, false);
         transactionPresenter = new TransactionPresenter(getActivity());
         transactionPresenter.attachView(this);
         setHasOptionsMenu(true);
@@ -54,6 +61,16 @@ public class TransactionFragment extends BaseFragment implements TransactionView
         initUI(view);
 
         return view;
+    }
+
+    private ArrayList<String> getProductNumberList(List<CustomerProductResponse> listProducts) {
+
+        ArrayList<String> prodNumbStringList = new ArrayList<>();
+        for (CustomerProductResponse customerProductResponse : listProducts) {
+            prodNumbStringList.add(customerProductResponse.getProductNumber());
+        }
+
+        return prodNumbStringList;
     }
 
     @Override
@@ -65,7 +82,15 @@ public class TransactionFragment extends BaseFragment implements TransactionView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save_tx:
+                Fragment fragment = new SaveTransactionFragment();
 
+                FragmentManager fragmentManager = getFragmentManager();
+                assert fragmentManager != null;
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, SaveTransactionFragment.FRAGMENT_TAG);
+                fragmentTransaction.addToBackStack(SaveTransactionFragment.FRAGMENT_TAG);
+                fragmentTransaction.commit();
                 break;
             default:
                 Log.i(getClass().getSimpleName(), "No se reconoce la opcion indicada");
@@ -78,11 +103,22 @@ public class TransactionFragment extends BaseFragment implements TransactionView
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         emptyView = view.findViewById(R.id.empty_transaction);
         prodNumberField = view.findViewById(R.id.transaction_query_product);
-        prodNumberField.addTextChangedListener(this);
+        prodNumberField.setOnItemSelectedListener(this);
         recyclerTransactions = view.findViewById(R.id.recycler_last_transactions);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerTransactions.setLayoutManager(llm);
+
+
+        prodNumberList = getProductNumberList(Util.getListProducts(getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(Constants.PRODUCTS, "")));
+
+        if (prodNumberList.size() > 0) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, prodNumberList);
+            prodNumberField.setAdapter(adapter);
+        } else {
+            prodNumberField.setEnabled(false);
+        }
 
         transactionAdapter = new TransactionAdapter(getActivity(), transactionResponses);
         transactionAdapter.notifyDataSetChanged();
@@ -92,9 +128,13 @@ public class TransactionFragment extends BaseFragment implements TransactionView
 
     @Override
     public void showTransactionList(List<TransactionResponse> listTransaction) {
-        verifyVisibilityDataState();
-        transactionResponses.addAll(listTransaction);
+        transactionResponses.clear();
+        transactionAdapter.clearData();
+        if (listTransaction != null && listTransaction.size() > 0) {
+            transactionResponses.addAll(listTransaction);
+        }
         transactionAdapter.notifyDataSetChanged();
+        verifyVisibilityDataState();
     }
 
     private boolean verifyVisibilityDataState() {
@@ -110,23 +150,20 @@ public class TransactionFragment extends BaseFragment implements TransactionView
     }
 
     //<editor-fold desc="TextWatcher">
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            if (charSequence.length() > 0)
-                transactionPresenter.callLastTransactions(sharedPreferences.getString(Constants.LIMIT, ""), charSequence.toString());
-        } catch (CertificateException | NoSuchAlgorithmException | IOException | KeyStoreException | KeyManagementException e) {
+            if (prodNumberList.size() > 0) {
+                transactionPresenter.callLastTransactions(sharedPreferences.getString(Constants.LIMIT, "1"), prodNumberList.get(i));
+            }
+        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException | IOException | KeyManagementException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
     //</editor-fold>
